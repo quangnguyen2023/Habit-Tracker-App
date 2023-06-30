@@ -1,0 +1,27 @@
+.calendar {
+  margin-top: 1rem;
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 15px;
+  margin-bottom: 1.2rem;
+  text-align: center;
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 15px
+}
+
+.day {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  border: 1px dashed #cccccc;
+  border-radius: 50%;
+  font-size: 0.95rem;
+}

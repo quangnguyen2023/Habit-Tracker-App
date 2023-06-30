@@ -1,13 +1,13 @@
 import styles from './HabitCheckerItem.module.css';
 
-export default function HabitCheckerItem() {
+export default function HabitCheckerItem({ month }) {
   const weekDays  = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   const days = () => {
     let arr = [];
-    let month = 6; // June
-    let lastDayPrevMonth = new Date((new Date).getFullYear(), month, 0);
-    let numberOfDays = lastDayPrevMonth.getDate();
+    let year = new Date().getFullYear();
+    let lastDayPrevMonth = new Date(year, month, 0);
+    let numberOfDays = new Date(year, month + 1, 0).getDate();
     let lastDayOfWeekPrevMonth = lastDayPrevMonth.getDay();
     let dayOfWeekFirstDay = lastDayOfWeekPrevMonth === 6 ? 0 : lastDayOfWeekPrevMonth + 1;
 

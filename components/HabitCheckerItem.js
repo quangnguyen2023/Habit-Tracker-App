@@ -1,6 +1,6 @@
-import styles from './Calendar.module.css';
+import styles from './HabitCheckerItem.module.css';
 
-export default function Calendar() {
+export default function HabitCheckerItem() {
   const weekDays  = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   const days = () => {
@@ -24,18 +24,21 @@ export default function Calendar() {
   }
 
   return(
-    <div className={styles.calendar}>
-      <div className={styles.weekdays}>
-        { weekDays.map((weekday, index) => 
-          <span className={styles.weekday} key={index}> {weekday} </span>) 
-        }
-      </div>
-      <div className={styles.days}>
-        { days().map((day, index) => 
-          <span className={`${day ? styles.day : ''}`} key={index}> 
-            {day} 
-          </span>
-        )}
+    <div className={styles['habit-checker__item']}>
+      <h2> Ngoại Ngữ </h2>
+      <div className={styles.calendar}>
+        <div className={styles.weekdays}>
+          { weekDays.map((weekday, index) =>
+            <span className={styles.weekday} key={index}> {weekday} </span>)
+          }
+        </div>
+        <div className={styles.days}>
+          { days().map((day, index) =>
+            <span className={`${day ? styles.day : ''}`} key={index}>
+              {day}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );

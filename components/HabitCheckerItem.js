@@ -12,7 +12,7 @@ export default function HabitCheckerItem({ month, habitTitle }) {
     let dayOfWeekFirstDay = lastDayOfWeekPrevMonth === 6 ? 0 : lastDayOfWeekPrevMonth + 1;
 
     // add white space before first day of month
-    for (let i = 0; i < dayOfWeekFirstDay; i++) {
+    for (let i = 1; i < dayOfWeekFirstDay; i++) {
       arr.push('');
     }
     // add the days of month

@@ -13,10 +13,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Box } from '@mui/material';
 
-import HabitCheckerItem from '../components/HabitCheckerItem';
+import HabitTrackerItem from '../components/HabitTrackerItem';
 import styles from '../styles/HabitChecker.module.css';
 
-export default function HabitChecker() {
+export default function HabitTracker() {
   const [month, setMonth] = useState(new Date().getMonth());
   const [titles, setTitles] = useState([]);
   const [newTitle, setNewTitle] = useState('');
@@ -46,6 +46,10 @@ export default function HabitChecker() {
     setMonth(event.target.value);
   };
 
+  const handleDeleteHabit = (index) => {
+    setTitles([...titles.slice(0, index), ...titles.slice(index + 1)]);
+  };
+
   return (
     <>
       <Head>
@@ -58,9 +62,13 @@ export default function HabitChecker() {
             {/* Habits List */}
             <Grid lg={10.5} md={10} sm={8}>
               <Grid container spacing={8}>
-                {titles.map((title) => (
-                  <Grid xs={6}>
-                    <HabitCheckerItem month={month} habitTitle={title} />
+                {titles.map((title, index) => (
+                  <Grid xs={6} key={index}>
+                    <HabitTrackerItem
+                      month={month}
+                      habitTitle={title}
+                      onDelete={() => handleDeleteHabit(index)}
+                    />
                   </Grid>
                 ))}
               </Grid>

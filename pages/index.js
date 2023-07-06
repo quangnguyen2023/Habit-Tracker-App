@@ -50,6 +50,14 @@ export default function HabitTracker() {
     setTitles([...titles.slice(0, index), ...titles.slice(index + 1)]);
   };
 
+  const handleUpdateTitle = (index, newTitle) => {
+    //prettier-ignore
+    setTitles([
+      ...titles.slice(0, index),
+      newTitle,
+      ...titles.slice(index + 1)])
+  };
+
   return (
     <>
       <Head>
@@ -68,6 +76,7 @@ export default function HabitTracker() {
                       month={month}
                       habitTitle={title}
                       onDelete={() => handleDeleteHabit(index)}
+                      onUpdateTitle={(newTitle) => handleUpdateTitle(index, newTitle)}
                     />
                   </Grid>
                 ))}

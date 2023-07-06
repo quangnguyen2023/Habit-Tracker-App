@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -7,11 +7,16 @@ import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import { Box } from '@mui/material';
+import TextField from '@mui/material/TextField';
 
 import styles from './HabitTrackerItem.module.css';
 
-export default function HabitTrackerItem({ month, habitTitle, onDelete }) {
+export default function HabitTrackerItem({ month, habitTitle, onDelete, onUpdateTitle }) {
+  const [isEditing, setIsEditing] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [previousHabitTitle, setPreviousHabitTitle] = useState('');
+  const inputRef = useRef(null);
+
   const open = Boolean(anchorEl);
 
   const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -35,6 +40,13 @@ export default function HabitTrackerItem({ month, habitTitle, onDelete }) {
     return arr;
   })();
 
+  //* auto focus when input element was displayed
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isEditing]);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -43,10 +55,42 @@ export default function HabitTrackerItem({ month, habitTitle, onDelete }) {
     setAnchorEl(null);
   };
 
+  const handleUpdateTitle = () => {
+    // save the initial value of habitTitle before editing
+    setPreviousHabitTitle(habitTitle);
+    setIsEditing(true);
+  };
+
+  const handleBlurAndKeyDown = (e) => {
+    if (e.key !== 'Enter' && e.type !== 'blur') return;
+    if (e.target.value.trim() === '') {
+      onUpdateTitle(previousHabitTitle);
+    }
+    setIsEditing(false);
+  };
+
   return (
     <div className={styles['habit-tracker__item']}>
+      {/* header */}
       <div className={styles.header}>
-        <h2 className={styles['habit-title']}> {habitTitle} </h2>
+        {
+          // prettier-ignore
+          !isEditing
+            ? <h2 className={styles['habit-title']}> {habitTitle} </h2>
+            : <TextField 
+                id="outlined-basic" 
+                label="Habit Title" 
+                variant="outlined" 
+                size='small' 
+                fullWidth
+                value={habitTitle}
+                onChange={(e) => onUpdateTitle(e.target.value)}
+                onBlur={handleBlurAndKeyDown}
+                onKeyDown={handleBlurAndKeyDown}
+                inputRef={inputRef}
+                sx={{ marginRight: 1 }}
+              />
+        }
         <Tooltip title="More actions">
           <IconButton
             size="small"
@@ -103,7 +147,7 @@ export default function HabitTrackerItem({ month, habitTitle, onDelete }) {
             </Box>
           </MenuItem>
 
-          <MenuItem onClick={handleClose} sx={{ display: 'flex', alignItems: 'center' }}>
+          <MenuItem onClick={handleUpdateTitle} sx={{ display: 'flex', alignItems: 'center' }}>
             <EditIcon fontSize="small" />
             <Box component="span" ml={2}>
               Update Habit Title

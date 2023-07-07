@@ -8,6 +8,12 @@ import DeleteIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import { Box } from '@mui/material';
 import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 import styles from './HabitTrackerItem.module.css';
 
@@ -15,6 +21,7 @@ export default function HabitTrackerItem({ month, habitTitle, onDelete, onUpdate
   const [isEditing, setIsEditing] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [previousHabitTitle, setPreviousHabitTitle] = useState('');
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const inputRef = useRef(null);
 
   const open = Boolean(anchorEl);
@@ -140,7 +147,10 @@ export default function HabitTrackerItem({ month, habitTitle, onDelete, onUpdate
           transformOrigin={{ horizontal: 'right', vertical: 'top' }}
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
-          <MenuItem onClick={onDelete} sx={{ display: 'flex', alignItems: 'center' }}>
+          <MenuItem
+            onClick={() => setOpenDeleteDialog(true)}
+            sx={{ display: 'flex', alignItems: 'center' }}
+          >
             <DeleteIcon fontSize="small" />
             <Box component="span" ml={2}>
               Delete Habit
@@ -154,6 +164,26 @@ export default function HabitTrackerItem({ month, habitTitle, onDelete, onUpdate
             </Box>
           </MenuItem>
         </Menu>
+
+        <Dialog
+          open={openDeleteDialog}
+          onClose={() => setOpenDeleteDialog(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title"> Delete Habit </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Are you sure you want to delete <b>"{habitTitle}"</b> habit?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenDeleteDialog(false)}> Cancel </Button>
+            <Button onClick={onDelete} autoFocus>
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
 
       {/* Calendar */}

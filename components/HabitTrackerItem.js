@@ -76,6 +76,11 @@ export default function HabitTrackerItem({ month, habitTitle, onDelete, onUpdate
     setIsEditing(false);
   };
 
+  const handleConfirmDelete = () => {
+    onDelete();
+    setOpenDeleteDialog(false);
+  };
+
   return (
     <div className={styles['habit-tracker__item']}>
       {/* header */}
@@ -179,7 +184,7 @@ export default function HabitTrackerItem({ month, habitTitle, onDelete, onUpdate
           </DialogContent>
           <DialogActions>
             <Button onClick={() => setOpenDeleteDialog(false)}> Cancel </Button>
-            <Button onClick={onDelete} autoFocus>
+            <Button onClick={handleConfirmDelete} autoFocus>
               Delete
             </Button>
           </DialogActions>
